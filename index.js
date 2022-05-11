@@ -6,8 +6,9 @@ const orders = require('./order.json')
 
 const app = express()
 
-const PORT = 3000
+const PORT = 80
 
+const finishInfo = []
 
 const optionsGetToken = {
     url: 'https://api.cdek.ru/v2/oauth/token?parameters',
@@ -28,7 +29,7 @@ async function getOrderInfo1(optionsGetInfOrder) {
                 return reject(err)
             }
             const response = JSON.parse(body)
-            
+
             if(response.requests.length == 0) {
                 const company = response.entity.recipient.company
                 const status = response.entity.statuses[0].name
@@ -58,7 +59,7 @@ async function getToken() {
     })
 }
 
-const finishInfo = []
+
 
 async function getOrderInfo() {
     //get token
@@ -90,7 +91,12 @@ app.set('view engine', 'ejs')
 app.get('/', async (req, res) => {
     const info = await getOrderInfo()
     console.log(finishInfo)
-    res.render('index')
+    // res.render('index', {name: finishInfo[0].name,
+    //                      trek: finishInfo[0].trek,
+    //                      status: finishInfo[0].status,
+    //                      company: finishInfo[0].company})
+    res.render('index', {finishInfo})
+    finishInfo.length = 0
 })
 
 app.listen(PORT, (err) => {
