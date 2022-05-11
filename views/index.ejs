@@ -8,6 +8,15 @@
 </head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
+    body {
+        margin-top: 50px;
+    }
+
+    .butt {
+        padding: 20px;
+        width: 40%;
+        margin: auto;
+    }
 
     table {
     border-collapse: collapse;
@@ -68,6 +77,22 @@ table.iksweb th {
             <% } %>
         </tbody>
     </table>
+
+<div class="butt">
+    <input type="text" id="name" placeholder="Ваш заказ">
+    <input type="text" id="trek" placeholder="Ваш трек">
+    <button onclick="sendJSON()">Добавить ЗК</button>
+</div>
 </main>
+<script>
+    function sendJSON() {
+        let xhr = new XMLHttpRequest()
+        let url = "http://localhost"
+        xhr.open("POST", url, true)
+        setRequestHeader("Content-Type", "application/json")
+        let data = JSON.stringify({"name": name.value, "trek": trek.value})
+        xhr.send(data)
+    }
+</script>
 </body>
 </html>

@@ -88,6 +88,10 @@ async function getOrderInfo() {
 
 app.set('view engine', 'ejs')
 
+app.post('/', (req, res) => {
+    console.log(req)
+})
+
 app.get('/', async (req, res) => {
     const info = await getOrderInfo()
     console.log(finishInfo)
