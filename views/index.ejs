@@ -12,7 +12,30 @@
         margin-top: 50px;
     }
 
+    .r {
+        position: absolute;
+        right: 500px;
+    }
+
+    .r1 {
+        position: absolute;
+        right: 620px;
+    }
+
+    .r2 {
+        position: absolute;
+        right: 830px;
+    }
+    
     .butt {
+        height: 80px;
+        padding-top: 30px;
+        padding: auto;
+    }
+
+    .butt-del {
+        height: 80px;
+        padding-top: 30px;
         padding: 20px;
         width: 40%;
         margin: auto;
@@ -79,19 +102,37 @@ table.iksweb th {
     </table>
 
 <div class="butt">
-    <input type="text" id="name" placeholder="Ваш заказ">
-    <input type="text" id="trek" placeholder="Ваш трек">
-    <button onclick="sendJSON()">Добавить ЗК</button>
+    <input class="r2" type="text" id="nameOrder" placeholder="Ваш заказ">
+    <input class="r1" type="text" id="trek" placeholder="Ваш трек">
+    <button class="r" onclick="sendJSON()">Добавить ЗК</button>
+</div>
+<div class="butt-del">
+    <input class="r1" type="text" id="nameOrderDel" placeholder="Ваш заказ">
+    <button class="r" onclick="sendJSONdel()">Удалить ЗК</button>
 </div>
 </main>
 <script>
+    const url = "http://localhost"
     function sendJSON() {
-        let xhr = new XMLHttpRequest()
-        let url = "http://localhost"
-        xhr.open("POST", url, true)
-        setRequestHeader("Content-Type", "application/json")
-        let data = JSON.stringify({"name": name.value, "trek": trek.value})
-        xhr.send(data)
+        let data = JSON.stringify({"name": nameOrder.value, "trek": trek.value})
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: data
+        })
+    }
+        function sendJSONdel() {
+        let data = JSON.stringify({"name": nameOrderDel.value})
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: data
+        })
+
     }
 </script>
 </body>

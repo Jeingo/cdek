@@ -1,5 +1,6 @@
 const request = require('request')
 const express = require('express')
+const fs = require('fs')
 
 const access = require('./config.json')
 const orders = require('./order.json')
@@ -65,11 +66,12 @@ async function getOrderInfo() {
     //get token
     const token = await getToken()
     //make authorization
-    for(i=0; i < Object.keys(orders).length; i++){
+    const file = JSON.parse(fs.readFileSync('order.json', 'utf-8'))
+    for(i=0; i < Object.keys(file).length; i++){
         const optionsGetInfOrder = {
             url: urlGetInfOrder,
             qs: {
-                cdek_number: orders[i].trek
+                cdek_number: file[i].trek
             },
             headers: {
                 "Authorization": "Bearer " + token
@@ -78,8 +80,8 @@ async function getOrderInfo() {
             //get information
     const information = await getOrderInfo1(optionsGetInfOrder)
     finishInfo.push( {
-        name: orders[i].name,
-        trek: orders[i].trek,
+        name: file[i].name,
+        trek: file[i].trek,
         status: information.status,
         company: information.company
     })
@@ -88,17 +90,27 @@ async function getOrderInfo() {
 
 app.set('view engine', 'ejs')
 
+app.use(express.json())
+
 app.post('/', (req, res) => {
-    console.log(req)
+    const file = JSON.parse(fs.readFileSync('order.json', 'utf-8'))
+    const order = req.body
+    file.push(order)
+    const result = JSON.stringify(file)
+    fs.writeFile('order.json', result, () => {})
+})
+
+app.delete('/', (req, res) => {
+    const file = JSON.parse(fs.readFileSync('order.json', 'utf-8'))
+    const order = req.body
+    const orderAll = file
+    const test = orderAll.filter(word => word.name != order.name)
+    const result = JSON.stringify(test)
+    fs.writeFile('order.json', result, () => {})
 })
 
 app.get('/', async (req, res) => {
     const info = await getOrderInfo()
-    console.log(finishInfo)
-    // res.render('index', {name: finishInfo[0].name,
-    //                      trek: finishInfo[0].trek,
-    //                      status: finishInfo[0].status,
-    //                      company: finishInfo[0].company})
     res.render('index', {finishInfo})
     finishInfo.length = 0
 })
