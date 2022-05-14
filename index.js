@@ -30,20 +30,18 @@ async function getOrderInfo1(optionsGetInfOrder) {
                 return reject(err)
             }
             const response = JSON.parse(body)
-
+            console.log(response.entity.statuses)
             if(response.requests.length == 0) {
-                const company = response.entity.recipient.company
-                const status = response.entity.statuses[0].name
                 const info = {
-                    company: company,
-                    status: status
+                    company: response.entity.recipient.company,
+                    status: response.entity.statuses[0].name
                 }
             
                 return resolve(info)
             } else {
                 return resolve({})
             }
-        })
+         })
     })
 }
 
@@ -98,6 +96,7 @@ app.post('/', (req, res) => {
     file.push(order)
     const result = JSON.stringify(file)
     fs.writeFile('order.json', result, () => {})
+    res.send('ok')
 })
 
 app.delete('/', (req, res) => {
@@ -107,6 +106,7 @@ app.delete('/', (req, res) => {
     const test = orderAll.filter(word => word.name != order.name)
     const result = JSON.stringify(test)
     fs.writeFile('order.json', result, () => {})
+    res.send('ok')
 })
 
 app.get('/', async (req, res) => {
