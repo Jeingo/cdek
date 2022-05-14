@@ -98,9 +98,8 @@ async function getOrderInfo() {
             //get information
     const information = await getOrderInfo1(optionsGetInfOrder)
     const information1 = await getOrderInfo1(optionsGetInfOrder1)
-    console.log(information)
-    console.log(information1)
-    if(information == {} && information1 == {}) {
+
+    if(Object.keys(information).length == 0 && Object.keys(information1).length == 0) {
 
     } else {
         if (Object.keys(information).length == 0) {
