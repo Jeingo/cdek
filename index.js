@@ -19,6 +19,16 @@ const optionsGetToken = {
         client_secret: access.password
     }
 }
+
+const optionsGetToken1 = {
+    url: 'https://api.cdek.ru/v2/oauth/token?parameters',
+    form: {
+        grant_type: 'client_credentials',
+        client_id: access.login1,
+        client_secret: access.password1
+    }
+}
+
 const urlGetInfOrder = 'http://api.cdek.ru/v2/orders'
 
 
@@ -30,7 +40,7 @@ async function getOrderInfo1(optionsGetInfOrder) {
                 return reject(err)
             }
             const response = JSON.parse(body)
-            console.log(response.entity.statuses)
+
             if(response.requests.length == 0) {
                 const info = {
                     company: response.entity.recipient.company,
@@ -45,9 +55,9 @@ async function getOrderInfo1(optionsGetInfOrder) {
     })
 }
 
-async function getToken() {
+async function getToken(opt) {
     return new Promise((resolve, reject) => {
-        request.post(optionsGetToken, (err, res, body) => {
+        request.post(opt, (err, res, body) => {
             if(err) {
                 console.error('error:', error)
                 return reject(err)
@@ -62,7 +72,8 @@ async function getToken() {
 
 async function getOrderInfo() {
     //get token
-    const token = await getToken()
+    const token = await getToken(optionsGetToken)
+    const token1 = await getToken(optionsGetToken1)
     //make authorization
     const file = JSON.parse(fs.readFileSync('order.json', 'utf-8'))
     for(i=0; i < Object.keys(file).length; i++){
@@ -75,14 +86,40 @@ async function getOrderInfo() {
                 "Authorization": "Bearer " + token
             }
         }
+        const optionsGetInfOrder1 = {
+            url: urlGetInfOrder,
+            qs: {
+                cdek_number: file[i].trek
+            },
+            headers: {
+                "Authorization": "Bearer " + token1
+            }
+        }
             //get information
     const information = await getOrderInfo1(optionsGetInfOrder)
-    finishInfo.push( {
-        name: file[i].name,
-        trek: file[i].trek,
-        status: information.status,
-        company: information.company
-    })
+    const information1 = await getOrderInfo1(optionsGetInfOrder1)
+    console.log(information)
+    console.log(information1)
+    if(information == {} && information1 == {}) {
+
+    } else {
+        if (Object.keys(information).length == 0) {
+            finishInfo.push( {
+                name: file[i].name,
+                trek: file[i].trek,
+                status: information1.status,
+                company: information1.company
+            })
+        } else {
+            finishInfo.push( {
+                name: file[i].name,
+                trek: file[i].trek,
+                status: information.status,
+                company: information.company
+            })
+        }
+    }
+
     }
 }
 
@@ -110,7 +147,7 @@ app.delete('/', (req, res) => {
 })
 
 app.get('/', async (req, res) => {
-    const info = await getOrderInfo()
+    await getOrderInfo()
     res.render('index', {finishInfo})
     finishInfo.length = 0
 })
