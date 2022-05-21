@@ -114,7 +114,6 @@ async function getOrderInfo() {
                 date: information1.date
             })
         } else {
-            console.log(information)
             finishInfo.push( {
                 name: file[i].name,
                 trek: file[i].trek,
