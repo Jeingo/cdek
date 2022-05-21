@@ -1,0 +1,60 @@
+body {
+    background-color: #a3a3a3;
+    background-image: url("https://www.transparenttextures.com/patterns/black-thread.png");
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
+.container {
+    display: grid;
+    grid-template-rows: 80px auto 80px 80px;
+    grid-gap: 20px;
+  }
+
+.item-1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #a3a3a3ff;
+}
+
+.item-2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #a3a3a3ff;
+}
+
+.text {
+  height: 30px;
+  width: 500px;
+  text-align: center;
+  font-size: 20px;
+  font-family: Andale Mono, monospace;
+}
+
+.button {
+  width: 65%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.buttonIn {
+  height: 30px;
+  margin: 5px;
+  text-align: center;
+}
+
+table {
+  width: 90%;
+  text-align: center;
+}
+
+td {
+  border: solid 1px black;
+  font-size: 20px;
+  font-family: Andale Mono, monospace;
+}

@@ -40,11 +40,13 @@ async function getOrderInfo1(optionsGetInfOrder) {
                 return reject(err)
             }
             const response = JSON.parse(body)
-
             if(response.requests.length == 0) {
+                console.log(response.entity.delivery_detail.date)
                 const info = {
                     company: response.entity.recipient.company,
-                    status: response.entity.statuses[0].name
+                    status: response.entity.statuses[0].name,
+                    total_sum: response.entity.delivery_detail.total_sum,
+                    date: response.entity.delivery_detail.date
                 }
             
                 return resolve(info)
@@ -98,29 +100,34 @@ async function getOrderInfo() {
             //get information
     const information = await getOrderInfo1(optionsGetInfOrder)
     const information1 = await getOrderInfo1(optionsGetInfOrder1)
-
-    if(Object.keys(information).length == 0 && Object.keys(information1).length == 0) {
-
-    } else {
+    
+    // if(Object.keys(information).length == 0 && Object.keys(information1).length == 0) {
+    //    if (information == {} && information1 == {}) {
+    // } else {
         if (Object.keys(information).length == 0) {
             finishInfo.push( {
                 name: file[i].name,
                 trek: file[i].trek,
                 status: information1.status,
-                company: information1.company
+                company: information1.company,
+                totalSum: information1.total_sum,
+                date: information1.date
             })
         } else {
+            console.log(information)
             finishInfo.push( {
                 name: file[i].name,
                 trek: file[i].trek,
                 status: information.status,
-                company: information.company
+                company: information.company,
+                totalSum: information.total_sum,
+                date: information.date
             })
         }
     }
 
     }
-}
+//}
 
 app.set('view engine', 'ejs')
 

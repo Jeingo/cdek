@@ -4,115 +4,117 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Гарантийные задачи СДЭК</title>
+    <style>
+        body {
+    background-color: #a3a3a3;
+    background-image: url("https://www.transparenttextures.com/patterns/black-thread.png");
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
+.container {
+    display: grid;
+    grid-template-rows: 80px auto 80px 80px;
+    grid-gap: 20px;
+  }
+
+.item-1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #a3a3a3ff;
+}
+
+.item-2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #a3a3a3ff;
+}
+
+.text {
+  height: 30px;
+  width: 500px;
+  text-align: center;
+  font-size: 20px;
+  font-family: Andale Mono, monospace;
+}
+
+.button {
+  width: 65%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.buttonIn {
+  height: 30px;
+  margin: 5px;
+  text-align: center;
+}
+
+table {
+  width: 90%;
+  text-align: center;
+}
+
+td {
+  border: solid 1px black;
+  font-size: 20px;
+  font-family: Andale Mono, monospace;
+}
+    </style>
 </head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
-<style>
-    body {
-        margin-top: 50px;
-    }
-
-    .r {
-        position: absolute;
-        right: 500px;
-    }
-
-    .r1 {
-        position: absolute;
-        right: 620px;
-    }
-
-    .r2 {
-        position: absolute;
-        right: 830px;
-    }
-    
-    .butt {
-        height: 80px;
-        padding-top: 30px;
-        padding: auto;
-    }
-
-    .butt-del {
-        height: 80px;
-        padding-top: 30px;
-        padding: 20px;
-        width: 40%;
-        margin: auto;
-    }
-
-    table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    background-color: #009879;
-    color: #ffffff;
-    text-align: left;
-    border-bottom: 1px solid #dddddd;
-    font-weight: bold;
-    }
-
-    table.iksweb{
-    margin: auto;
-	width: 90%;
-	border-collapse:collapse;
-	border-spacing:0;
-	height: auto;
-}
-table.iksweb,table.iksweb td, table.iksweb th {
-	border: 1px solid #595959;
-}
-table.iksweb td,table.iksweb th {
-	padding: 3px;
-	width: 30px;
-	height: 35px;
-}
-table.iksweb th {
-	background: #347c99; 
-	color: #fff; 
-	font-weight: normal;
-}
-</style>
-
 <body>
-    <main>
-<h3 align="center">Менеджер заказов СДЭК</h3>
-    <table class="iksweb">
-        <tbody>
-            <tr>
-                <td>ЗК</td>
-                <td>Трек</td>
-                <td>Статус</td>
-                <td>Компания</td>
-            </tr>
-        </tbody>
-        <tbody>
-            <% for(let i=0; i < finishInfo.length; i++) { %>
-            <tr>
-                <td><%= finishInfo[i].name %></td>
-                <td><%= finishInfo[i].trek %></td>
-                <td><%= finishInfo[i].status %></td>
-                <td><%= finishInfo[i].company %></td>
-            </tr>
-            <% } %>
-        </tbody>
-    </table>
-
-<div class="butt">
-    <input class="r2" type="text" id="nameOrder" placeholder="Ваш заказ">
-    <input class="r1" type="text" id="trek" placeholder="Ваш трек">
-    <button class="r" onclick="sendJSON()">Добавить ЗК</button>
-</div>
-<div class="butt-del">
-    <input class="r1" type="text" id="nameOrderDel" placeholder="Ваш заказ">
-    <button class="r" onclick="sendJSONdel()">Удалить ЗК</button>
-</div>
-</main>
-<script>
-    const url = "http://localhost"
+    <div class="container">
+        <div class="item item-1">
+            <div class="text">Трекинг Гарантийных задач в СДЭК</div>
+        </div>
+        <div class="item item-2">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>ЗК</td>
+                        <td>Трек</td>
+                        <td>Статус</td>
+                        <td>Компания</td>
+                        <td>Стоимость</td>
+                        <td>Дата прибытия</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <% for(let i=0; i < finishInfo.length; i++) { %>
+                    <tr>
+                        <td><%= finishInfo[i].name %></td>
+                        <td><%= finishInfo[i].trek %></td>
+                        <td><%= finishInfo[i].status %></td>
+                        <td><%= finishInfo[i].company %></td>
+                        <td><%= finishInfo[i].totalSum %> р</td>
+                        <td><%= finishInfo[i].date %></td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <div class="item item-3">
+            <div class="button">
+                <input class="buttonIn" type="text" id="nameOrder" placeholder="Ваш заказ">
+                <input class="buttonIn" type="text" id="trek" placeholder="Ваш трек">
+                <button class="buttonIn" onclick="sendJSON()">Добавить ЗК</button>
+            </div>
+        </div>
+        <div class="item item-4">
+            <div class="button">
+                <input class="buttonIn" type="text" id="nameOrderDelete" placeholder="Ваш заказ">
+                <button class="buttonIn" onclick="sendJSONdel()">Удалить ЗК</button>
+            </div>
+        </div>
+    </div>
+    <script >
+        const url = "http://localhost"
     function sendJSON() {
         let data = JSON.stringify({"name": nameOrder.value, "trek": trek.value})
         fetch(url, {
@@ -125,7 +127,7 @@ table.iksweb th {
         window.location.reload()
     }
         function sendJSONdel() {
-        let data = JSON.stringify({"name": nameOrderDel.value})
+        let data = JSON.stringify({"name": nameOrderDelete.value})
         fetch(url, {
             method: 'DELETE',
             headers: {
@@ -135,6 +137,6 @@ table.iksweb th {
         })
         window.location.reload()
     }
-</script>
+    </script>
 </body>
 </html>
